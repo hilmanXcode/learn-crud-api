@@ -1,6 +1,8 @@
 import { Table, Button, TextInput } from 'flowbite-react';
-import { getContactsList, addNewContact } from './api';
+import { getContactsList, addNewContact, deleteContact } from './api';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import { uid } from 'uid';
 
 function App() {
   const [contacts, setContactsList] = useState([]);
@@ -9,6 +11,7 @@ function App() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  // const [deleteId, setDeleteId] = useState();
 
   useEffect(() => {
     getContactsList().then((result) => {
@@ -30,9 +33,12 @@ function App() {
               <button href="#" className="font-medium text-white hover:underline dark:text-cyan-500 bg-teal-400 text-center rounded-md px-3 py-2">
                 Edit 
               </button> 
-              <button href="#" className="font-medium text-white hover:underline dark:text-cyan-500 bg-red-600 text-center rounded-md px-3 py-2">
+              {/* <form onSubmit={(e) => e.preventDefault()} id={data.id}> */}
+
+              <button id={data.id} onClick={() => handleDelete(data.id)} className="font-medium text-white hover:underline dark:text-cyan-500 bg-red-600 text-center rounded-md px-3 py-2">
                 Delete
               </button>
+              {/* </form> */}
             </Table.Cell>
           </Table.Row>
       )
@@ -41,7 +47,9 @@ function App() {
 
   const saveContact = async(e) => {
     e.preventDefault();
+    // const datax = [...contacts];
     const newData = {
+      id: uid(),
       name: name,
       last_name: lastName,
       phone: phone,
@@ -49,7 +57,8 @@ function App() {
       address: address
     }
     const data = [...contacts, newData];
-    addNewContact(name, lastName, phone, email, address).then(() => {
+    // console.log(newData.id);
+    addNewContact(newData.id, name, lastName, phone, email, address).then(() => {
       setContactsList(data);
       setName("");
       setLastName("");
@@ -57,7 +66,39 @@ function App() {
       setEmail("");
       setAddress("");
     })
+
+    // console.log(contacts);
   
+  }
+
+  // const contactDelete = (e) => {
+  //   e.preventDefault();
+
+  // }
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const data = [...contacts];
+        const updatedData = data.filter((contact) => contact.id !== id);
+        deleteContact(id);
+        setContactsList(updatedData);
+        // console.log(id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
   }
 
 

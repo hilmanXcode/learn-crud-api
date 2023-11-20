@@ -7,16 +7,42 @@ export const getContactsList = async () => {
   return data.data;
 };
 
-export const addNewContact = async (name, lastName, phone, email, address) => {
+export const addNewContact = async (
+  id,
+  name,
+  lastName,
+  phone,
+  email,
+  address
+) => {
   try {
     await axios.post(
       `${baseURL}/createContact`,
       {
+        id,
         name,
         lastName,
         phone,
         email,
         address,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteContact = async (id) => {
+  try {
+    await axios.delete(
+      `${baseURL}/deleteContact`,
+      {
+        data: { id: id },
       },
       {
         headers: {

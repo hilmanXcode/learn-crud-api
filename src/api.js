@@ -1,27 +1,21 @@
 import axios from "axios";
+import qs from "qs";
 
 const baseURL = process.env.REACT_APP_BASE_API;
 
 export const getContactsList = async () => {
-  const data = await axios.get(`${baseURL}/listContact`);
+  const data = await axios.get(`${baseURL}/siswa`);
   return data.data;
 };
 
-export const addNewContact = async (
-  id,
-  name,
-  lastName,
-  phone,
-  email,
-  address
-) => {
+export const addNewContact = async (id, name, last_name, phone, email, address) => {
   try {
     await axios.post(
-      `${baseURL}/createContact`,
+      `${baseURL}/siswa`,
       {
         id,
         name,
-        lastName,
+        last_name,
         phone,
         email,
         address,
@@ -39,17 +33,26 @@ export const addNewContact = async (
 
 export const deleteContact = async (id) => {
   try {
-    await axios.delete(
-      `${baseURL}/deleteContact`,
-      {
-        data: { id: id },
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const url = `${baseURL}/siswa`;
+    const data = { id: id };
+    const options = {
+      method: "DELETE",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      data: qs.stringify(data),
+      url,
+    };
+    await axios(options);
+    // await axios.delete(
+    //   `${baseURL}/deleteContact`,
+    //   {
+    //     data: { id: id },
+    //   },
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // );
   } catch (error) {
     console.log(error);
   }

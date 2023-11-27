@@ -1,7 +1,21 @@
-import { Table } from 'flowbite-react';
+import { Table, TextInput, Button } from 'flowbite-react';
 
-const ContactList = ({contacts, handleDelete}) => {
-  return (
+const ContactList = ({contacts, handleDelete, isEditing, setIsEditing, targetId, setTargetId}) => {
+
+
+  const handleEditing = (id) => {
+    setIsEditing(true);
+    setTargetId(id);
+  }
+  
+
+  return isEditing ? (
+  <>
+    
+    <h1>Masuk Mode Edit COy</h1>
+    <h1>ID TARGET: {targetId}</h1>
+  </>
+  ) : (
     <>
       <h1 className='text-xl font-bold text-center my-5'>Data</h1>
      <Table>
@@ -25,7 +39,7 @@ const ContactList = ({contacts, handleDelete}) => {
                 <Table.Cell>{data.email}</Table.Cell>
                 <Table.Cell>{data.address}</Table.Cell>
                 <Table.Cell className='grid grid-cols-2 gap-2'>
-                  <button href="#" className="font-medium text-white hover:underline dark:text-cyan-500 bg-teal-400 text-center rounded-md px-3 py-2">
+                  <button onClick={() => handleEditing(data.id)} className="font-medium text-white hover:underline dark:text-cyan-500 bg-teal-400 text-center rounded-md px-3 py-2">
                     Edit 
                   </button> 
                   {/* <form onSubmit={(e) => e.preventDefault()} id={data.id}> */}

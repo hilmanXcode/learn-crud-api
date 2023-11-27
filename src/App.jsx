@@ -6,14 +6,19 @@ import Swal from "sweetalert2";
 
 function App() {
   const [contacts, setContactsList] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [targetId, setTargetId] = useState('');
 
   useEffect(() => {
     getContactsList().then((result) => {
-      setContactsList(result);
+      if(result !== ""){
+        setContactsList(result);
+      }
     });
   }, [])
 
   const handleDelete = (id) => {
+    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -41,8 +46,14 @@ function App() {
   return (
     <div className='flex justify-center'>
       <div className='p-10'>
-        <InputContact contacts={contacts} setContactsList={setContactsList}/>
-        <ContactList contacts={contacts} handleDelete={handleDelete}/>
+      {isEditing ? (
+        <ContactList contacts={contacts} handleDelete={handleDelete} setIsEditing={setIsEditing} isEditing={isEditing} targetId={targetId} setTargetId={setTargetId} />
+      ) : (
+        <>
+          <InputContact contacts={contacts} setContactsList={setContactsList}/>
+          <ContactList contacts={contacts} handleDelete={handleDelete} setIsEditing={setIsEditing} isEditing={isEditing} targetId={targetId} setTargetId={setTargetId} />
+        </>
+      )}
       </div>
     </div>
   );

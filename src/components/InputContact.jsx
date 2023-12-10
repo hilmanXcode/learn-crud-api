@@ -12,7 +12,6 @@ const InputContact = ({contacts, setContactsList}) => {
 
   const saveContact = async(e) => {
     e.preventDefault();
-    // const datax = [...contacts];
     const newData = {
       id: uid(),
       name: name,
@@ -22,7 +21,6 @@ const InputContact = ({contacts, setContactsList}) => {
       address: address
     }
     const data = [...contacts, newData];
-    console.log(newData.id);
     addNewContact(newData.id, name, lastName, phone, email, address).then(() => {
       setContactsList(data);
       setName("");
@@ -31,8 +29,6 @@ const InputContact = ({contacts, setContactsList}) => {
       setEmail("");
       setAddress("");
     })
-
-    // console.log(contacts);
   
   }
 

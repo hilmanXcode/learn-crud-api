@@ -42,18 +42,30 @@ export const deleteContact = async (id) => {
       url,
     };
     await axios(options);
-    // await axios.delete(
-    //   `${baseURL}/deleteContact`,
-    //   {
-    //     data: { id: id },
-    //   },
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // );
   } catch (error) {
     console.log(error);
   }
 };
+
+export const updateContact = async (id, name, last_name, phone, email, address) => {
+  try {
+    const url = `${baseURL}/siswa`;
+    const data = { 
+      id: id,
+      name: name,
+      last_name: last_name,
+      phone: phone,
+      email: email,
+      address: address
+    };
+    const options = {
+      method: "PUT",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      data: qs.stringify(data),
+      url,
+    };
+    await axios(options);
+  } catch (error) {
+    console.log(error);
+  }
+}

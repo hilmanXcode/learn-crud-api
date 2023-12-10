@@ -18,7 +18,6 @@ function App() {
   }, [])
 
   const handleDelete = (id) => {
-    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -33,7 +32,6 @@ function App() {
         const updatedData = data.filter((contact) => contact.id !== id);
         deleteContact(id);
         setContactsList(updatedData);
-        // console.log(id);
         Swal.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",
@@ -47,11 +45,11 @@ function App() {
     <div className='flex justify-center'>
       <div className='p-10'>
       {isEditing ? (
-        <ContactList contacts={contacts} handleDelete={handleDelete} setIsEditing={setIsEditing} isEditing={isEditing} targetId={targetId} setTargetId={setTargetId} />
+        <ContactList contacts={contacts} handleDelete={handleDelete} setIsEditing={setIsEditing} isEditing={isEditing} targetId={targetId} setTargetId={setTargetId} setContactsList={setContactsList} />
       ) : (
         <>
           <InputContact contacts={contacts} setContactsList={setContactsList}/>
-          <ContactList contacts={contacts} handleDelete={handleDelete} setIsEditing={setIsEditing} isEditing={isEditing} targetId={targetId} setTargetId={setTargetId} />
+          <ContactList contacts={contacts} handleDelete={handleDelete} setIsEditing={setIsEditing} isEditing={isEditing} targetId={targetId} setTargetId={setTargetId} setContactsList={setContactsList} />
         </>
       )}
       </div>

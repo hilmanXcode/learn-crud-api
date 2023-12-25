@@ -1,59 +1,19 @@
-import { getContactsList, deleteContact } from './api';
-import { useEffect, useState } from 'react';
-import ContactList from './components/ContactList';
-import InputContact from './components/InputContact';
-import Swal from "sweetalert2";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import AddContact from './pages/AddContact';
+import EditContact from './pages/EditContact';
 
 function App() {
-  const [contacts, setContactsList] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [targetId, setTargetId] = useState('');
-
-  useEffect(() => {
-    getContactsList().then((result) => {
-      if(result !== ""){
-        setContactsList(result);
-      }
-    });
-  }, [])
-
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const data = [...contacts];
-        const updatedData = data.filter((contact) => contact.id !== id);
-        deleteContact(id);
-        setContactsList(updatedData);
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success"
-        });
-      }
-    });
-  }
+  
 
   return (
-    <div className='flex justify-center'>
-      <div className='p-10'>
-      {isEditing ? (
-        <ContactList contacts={contacts} handleDelete={handleDelete} setIsEditing={setIsEditing} isEditing={isEditing} targetId={targetId} setTargetId={setTargetId} setContactsList={setContactsList} />
-      ) : (
-        <>
-          <InputContact contacts={contacts} setContactsList={setContactsList}/>
-          <ContactList contacts={contacts} handleDelete={handleDelete} setIsEditing={setIsEditing} isEditing={isEditing} targetId={targetId} setTargetId={setTargetId} setContactsList={setContactsList} />
-        </>
-      )}
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/addcontact' element={<AddContact/>} />
+        <Route path='/edit/:id' element={<EditContact/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -8,6 +8,11 @@ export const getContactsList = async () => {
   return data.data;
 };
 
+export const getContactById = async (id) => {
+  const data = await axios.get(`${baseURL}/siswa?id=${id}`);
+  return data.data;
+}
+
 export const addNewContact = async (id, name, last_name, phone, email, address) => {
   try {
     await axios.post(
